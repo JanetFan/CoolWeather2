@@ -25,25 +25,37 @@ public class MainActivity extends AppCompatActivity {
     private List<String> sources=new ArrayList<>();
     private List<String> province= Arrays.asList(new String[]{"北京市","浙江省","江苏省"});
     private List<String> city_01=Arrays.asList(new String[]{"北京"});
-    private List<String> city_02=Arrays.asList(new String[]{"杭州","金华","宁波"});
+    private List<String> city_02=Arrays.asList(new String[]{"杭州","金华","宁波","温州","台州","萧山","绍兴","嘉兴"});
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button= (Button) findViewById(R.id.button);
-        button.setVisibility(View.GONE);
-        button.setVisibility(View.VISIBLE);
+        final Button button= (Button) findViewById(R.id.button);
+        button.setVisibility(View.GONE);//返回按钮在省级页面隐藏
+        //button.setVisibility(View.VISIBLE);
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(
                 MainActivity.this,android.R.layout.simple_list_item_1,province);
         final ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+/**
+ * 省级页面到市级页面调用同一个页面
+ */
 
        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
            @Override
            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               button.setVisibility(View.VISIBLE);
+               button.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       button.setVisibility(View.GONE);
+                       ArrayAdapter adapter=new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,province);
+                       listView.setAdapter(adapter);
+                   }
+               });
                Toast.makeText(MainActivity.this,province.get(position),Toast.LENGTH_SHORT).show();
                if ("北京市".equals(province.get(position))){
                    ArrayAdapter adapter=new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1,city_01);
@@ -53,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
                    listView.setAdapter(adapter);
                }
 
+                    /*
+                    * 两个页面用intent p50页
+                    *  Intent intent=new Intent(MainActivity.this,City.class);
+                                   intent.putExtra("province",data[position]);
+                                   startActivity(intent);*/
 
-//               Intent intent=new Intent(MainActivity.this,City.class);
-//               intent.putExtra("province",data[position]);
-//               startActivity(intent);
            }
        });
 
