@@ -20,7 +20,7 @@ public class City extends AppCompatActivity {
         Intent intent=getIntent();
         String p= getIntent().getStringExtra("province");
         String[] datas=null;
-        if ("北京".equals(p)){
+        if ("北京市".equals(p)){
             datas=city_01;
         }else if ("浙江省".equals(p)){
             datas=city_02;
